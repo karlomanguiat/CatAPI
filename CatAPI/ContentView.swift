@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var breedFetcher = BreedFetcher()
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        
+        if breedFetcher.isLoading {
+            LoadingView()
+        } else if breedFetcher.errorMessage != nil {
+            ErrorView(breedFetcher: breedFetcher)
+        } else {
+            BreedListView(breeds: breedFetcher.breeds)
         }
-        .padding()
     }
 }
 
